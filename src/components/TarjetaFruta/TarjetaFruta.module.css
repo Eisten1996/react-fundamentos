@@ -1,0 +1,14 @@
+.card {
+    border: 1px solid black;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    padding: 15px;
+    background: #FFF;
+    color: #000;
+    transition: all 400ms ease-out;
+}
+
+.card-active {
+    background: linear-gradient(45deg, black, #4a02f7);
+    color: #FFF;
+}
