@@ -12,36 +12,30 @@
 // export default App
 
 import React, { Component } from 'react'
-import './global.css'
 
-class Hijo extends Component {
-  manejador = () => {
-    this.props.onSaluda('Eisten Flores')
-  }
-  render() {
-    return (
-      <div className="box blue">
-        <h2>Hijo</h2>
-        <button onClick={this.manejador}>Saludar</button>
-      </div>
-    )
-  }
+const Saluda = (props) => {
+  return (
+    <div>
+      <div>{props.name && <strong>{props.name}</strong>}</div>
+      {props.saluda ? (
+        <h1>Hola, tu eres genial !</h1>
+      ) : (
+        <p>Wops, no hay saludo para ti!</p>
+      )}
+    </div>
+  )
+
+  //   if (props.saluda) {
+  //     return <h1>Hola, tu eres genial !</h1>
+  //   }
+
+  //   return <p>Wops, no hay saludo para ti!</p>
 }
-class App extends Component {
-  state = {
-    name: '',
-  }
-  manejador = (name) => {
-    this.setState({ name })
-  }
-  render() {
-    return (
-      <div className="box red">
-        <Hijo onSaluda={this.manejador} />
-        <h1>Nombre : {this.state.name}</h1>
-      </div>
-    )
-  }
-}
+
+const App = () => (
+  <div>
+    <Saluda saluda name="Eisten" />
+  </div>
+)
 
 export default App
