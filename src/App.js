@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+const noops = () => {}
 class Profile extends Component {
   // npm i prop-types
   static propTypes = {
@@ -9,6 +10,16 @@ class Profile extends Component {
     email: PropTypes.string,
     age: PropTypes.number,
   }
+
+  static defaultProps = {
+    name: 'Eisten',
+    onHello: noops,
+  }
+
+  saluda = () => {
+    this.props.onHello()
+  }
+
   render() {
     const { name, bio, email, age } = this.props
     return (
@@ -17,15 +28,17 @@ class Profile extends Component {
         <p>{bio}</p>
         <a href={`mailto:${email}`}>{email}</a>
         <p>{age}</p>
+        <button onClick={this.saluda}>Saluda</button>
       </div>
     )
   }
 }
+
 class App extends Component {
   render() {
     return (
       <div>
-        <Profile name="Eisten" bio="..bio" email="eisten.flores@unmsm.edu.pe" />
+        <Profile bio="..bio" email="eisten.flores@unmsm.edu.pe" age={23} />
       </div>
     )
   }
