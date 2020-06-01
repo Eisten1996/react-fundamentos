@@ -12,28 +12,29 @@
 // export default App
 
 import React from 'react'
-const styles = {
-  height: '200px',
-  background: 'gold',
-  padding: '1em',
-  boxSizing: 'border-box',
-}
+
 class App extends React.Component {
   state = {
-    x: 0,
-    y: 0,
+    text: '',
+    evento: '',
   }
-  manejador = ({ clientX, clientY }) => {
+  manejador = (event) => {
     this.setState({
-      x: clientX,
-      y: clientY,
+      text: event.target.value,
+      evento: event.type,
     })
   }
   render = () => {
     return (
-      <div style={styles} onMouseMove={this.manejador}>
-        <div>{this.state.x}</div>
-        <div>{this.state.y}</div>
+      <div>
+        <input
+          type="text"
+          onChange={this.manejador}
+          onCopy={this.manejador}
+          onPaste={this.manejador}
+        ></input>
+        <h1>{this.state.text}</h1>
+        <h3>{this.state.evento}</h3>
       </div>
     )
   }
