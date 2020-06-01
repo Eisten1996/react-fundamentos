@@ -11,23 +11,39 @@
 
 // export default App
 
-import React from 'react'
+import React, { Component } from 'react'
 
-class App extends React.Component {
-  state = {}
-  manejador = (e) => {
-    e.preventDefault()
-    console.log(e.nativeEvent)
+class PersistenciaEventos extends Component {
+  state = {
+    color: 'blue',
   }
-  render = () => {
+  handlerChange = (event) => {
+    // event.persist()
+    // console.log(event.target.value)
+    // this.setState({
+    //   color: event.target.value,
+    // })
+
+    const color = event.target.value
+    this.setState({
+      color,
+    })
+  }
+
+  render() {
     return (
       <div>
-        <a href="https://www.google.com/" onClick={this.manejador}>
-          Google
-        </a>
+        <input type="text" onChange={this.handlerChange}></input>
+        <h1 style={{ color: this.state.color }}>{this.state.color}</h1>
       </div>
     )
   }
 }
+
+const App = () => (
+  <div>
+    <PersistenciaEventos />
+  </div>
+)
 
 export default App
