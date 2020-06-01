@@ -12,28 +12,28 @@
 // export default App
 
 import React from 'react'
-
-const Gato = (props) => (
-  <div>
-    <h1>Gato</h1>
-    <pre>{JSON.stringify(props, null, 4)}</pre>
-  </div>
-)
-
+const styles = {
+  height: '200px',
+  background: 'gold',
+  padding: '1em',
+  boxSizing: 'border-box',
+}
 class App extends React.Component {
   state = {
-    fuerza: 100,
-    vidasRestantes: 7,
-    name: 'Chimicuil',
+    x: 0,
+    y: 0,
+  }
+  manejador = ({ clientX, clientY }) => {
+    this.setState({
+      x: clientX,
+      y: clientY,
+    })
   }
   render = () => {
-    const otrosDatos = {
-      raza: 'tropical',
-      peleasNocturnas: 300,
-    }
     return (
-      <div>
-        <Gato name="Garfiel" age="2 años" {...otrosDatos} {...this.state} />
+      <div style={styles} onMouseMove={this.manejador}>
+        <div>{this.state.x}</div>
+        <div>{this.state.y}</div>
       </div>
     )
   }
