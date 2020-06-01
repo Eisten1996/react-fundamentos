@@ -1,37 +1,25 @@
-// import React from 'react'
-// import TarjetaFruta from './components/TarjetaFruta'
-// const frutaExotica = 'Fruta del dragon'
-// const App = () => (
-//   <div>
-//     <TarjetaFruta name="Sandia" price={4.5} />
-//     <TarjetaFruta name={'Piña'} price={2.5}></TarjetaFruta>
-//     <TarjetaFruta name={`${frutaExotica}`} price={10.5}></TarjetaFruta>
-//   </div>
-// )
-
-// export default App
-
 import React, { Component } from 'react'
 
-const Title = (props) => {
+const Title = ({ uiColor, children }) => {
   const styles = {
     padding: '0.3em',
     color: '#FFF',
-    background: props.uiColor,
+    background: uiColor,
     borderRadius: '0.3em',
     textAlign: 'center',
     fontSize: '50px',
   }
-  return <h1 style={styles}>{props.children}</h1>
+  return <h1 style={styles}>{children}</h1>
 }
 class App extends Component {
   state = {
-    uiColor: 'purple',
+    uiColor: 'tomato',
   }
   render() {
+    const { uiColor } = this.state
     return (
       <div>
-        <Title uiColor={this.state.uiColor}>
+        <Title uiColor={uiColor}>
           Super <em>Ninja</em>
         </Title>
       </div>
