@@ -1,27 +1,26 @@
 import React, { Component } from 'react'
 
-const Title = ({ uiColor, children }) => {
-  const styles = {
-    padding: '0.3em',
-    color: '#FFF',
-    background: uiColor,
-    borderRadius: '0.3em',
-    textAlign: 'center',
-    fontSize: '50px',
-  }
-  return <h1 style={styles}>{children}</h1>
-}
+const Computacion = () => (
+  <React.Fragment>
+    <li>Monitor</li>
+    <li>Mouse</li>
+    <li>Teclado</li>
+  </React.Fragment>
+)
+const Ropa = () => (
+  <>
+    <li>Playera</li>
+    <li>Jeans</li>
+    <li>Shors</li>
+  </>
+)
+
 class App extends Component {
-  state = {
-    uiColor: 'tomato',
-  }
   render() {
-    const { uiColor } = this.state
     return (
       <div>
-        <Title uiColor={uiColor}>
-          Super <em>Ninja</em>
-        </Title>
+        <Computacion />
+        <Ropa />
       </div>
     )
   }
