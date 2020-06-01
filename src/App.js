@@ -12,30 +12,28 @@
 // export default App
 
 import React, { Component } from 'react'
-
-const Saluda = (props) => {
-  return (
-    <div>
-      <div>{props.name && <strong>{props.name}</strong>}</div>
-      {props.saluda ? (
-        <h1>Hola, tu eres genial !</h1>
-      ) : (
-        <p>Wops, no hay saludo para ti!</p>
-      )}
-    </div>
-  )
-
-  //   if (props.saluda) {
-  //     return <h1>Hola, tu eres genial !</h1>
-  //   }
-
-  //   return <p>Wops, no hay saludo para ti!</p>
+class App extends Component {
+  state = {
+    marcado: `
+    <h1>Inyectando HTML con React</h1>
+    <br/>
+    <hr/>
+    <a href="#">ALgun link</a>
+    `,
+  }
+  render() {
+    return (
+      <div>
+        <div
+          dangerouslySetInnerHTML={{
+            __html: this.state.marcado,
+          }}
+        ></div>
+      </div>
+    )
+  }
 }
 
-const App = () => (
-  <div>
-    <Saluda saluda name="Eisten" />
-  </div>
-)
+// const App = () => <div></div>
 
 export default App
