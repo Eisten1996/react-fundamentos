@@ -14,27 +14,17 @@
 import React from 'react'
 
 class App extends React.Component {
-  state = {
-    text: '',
-    evento: '',
-  }
-  manejador = (event) => {
-    this.setState({
-      text: event.target.value,
-      evento: event.type,
-    })
+  state = {}
+  manejador = (e) => {
+    e.preventDefault()
+    console.log(e.nativeEvent)
   }
   render = () => {
     return (
       <div>
-        <input
-          type="text"
-          onChange={this.manejador}
-          onCopy={this.manejador}
-          onPaste={this.manejador}
-        ></input>
-        <h1>{this.state.text}</h1>
-        <h3>{this.state.evento}</h3>
+        <a href="https://www.google.com/" onClick={this.manejador}>
+          Google
+        </a>
       </div>
     )
   }
