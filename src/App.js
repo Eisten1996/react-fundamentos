@@ -2,55 +2,26 @@ import React, { Component } from 'react'
 
 class App extends Component {
   state = {
-    products: [
-      {
-        id: 1,
-        name: 'camisa unicornio',
-        colors: ['#467367', '#05fd88', '#a706ee'],
-        price: 20,
-      },
-      {
-        id: 2,
-        name: 'jeans',
-        colors: ['#D35EFF', '#9956E8', '#876BFF', '#5662E8', '#5E96FF'],
-        price: 32,
-      },
-      {
-        id: 3,
-        name: 'taza',
-        colors: ['#804342', '#FFD2D1', '#FF8785', '#806969'],
-        price: 20,
-      },
-    ],
+    user: {
+      name: 'Eisten',
+      country: 'Peru',
+      twitter: '@Dipper',
+      youtube: 'zDipper',
+    },
   }
   render() {
+    const { user } = this.state
+    const keys = Object.keys(user)
     return (
       <div>
-        <h3>Iterando listas de objetos</h3>
-        <div>
-          {this.state.products.map((producto) => (
-            <div>
-              $ {producto.price} - {producto.name}
-              <div>
-                {producto.colors.map((color) => (
-                  <div>
-                    <span
-                      style={{
-                        width: '13px',
-                        height: '13px',
-                        borderRadius: '0.1em',
-                        border: '1px solid gray',
-                        display: 'inline-block',
-                        margin: '0.1em',
-                        background: color,
-                      }}
-                    ></span>
-                  </div>
-                ))}
-              </div>
-            </div>
+        <h3>Iterando propiedades de objetos</h3>
+        <ul>
+          {keys.map((key) => (
+            <li>
+              <strong>{key}</strong> : {user[key]}
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     )
   }
