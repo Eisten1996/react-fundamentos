@@ -1,23 +1,43 @@
 import React, { Component } from 'react'
+import Chart from 'chart.js'
 
-class Entrada extends Component {
-  entrada = React.createRef()
+class Graficas extends Component {
+  grafica = React.createRef()
   componentDidMount() {
-    this.focus()
-  }
+    const ctx = this.grafica.current.getContext('2d')
+    const chart = new Chart(ctx, {
+      // The type of chart we want to create
+      type: 'line',
 
-  focus = () => {
-    this.entrada.current.focus()
-  }
-  blur = () => {
-    this.entrada.current.blur()
+      // The data for our dataset
+      data: {
+        labels: [
+          'January',
+          'February',
+          'March',
+          'April',
+          'May',
+          'June',
+          'July',
+        ],
+        datasets: [
+          {
+            label: 'My First dataset',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [5, 10, 5, 20, 20, 30, 10],
+          },
+        ],
+      },
+
+      // Configuration options go here
+      options: {},
+    })
   }
   render() {
     return (
       <div>
-        <input type="text" ref={this.entrada} />
-        <button onClick={this.focus}>Focus</button>
-        <button onClick={this.blur}>Blur</button>
+        <canvas ref={this.grafica} width="400" height="400"></canvas>
       </div>
     )
   }
@@ -26,8 +46,8 @@ class App extends Component {
   render() {
     return (
       <div>
-        <h1>React refs</h1>
-        <Entrada />
+        <h1>Usando refs</h1>
+        <Graficas />
       </div>
     )
   }
