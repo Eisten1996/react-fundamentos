@@ -1,22 +1,49 @@
 import React, { Component } from 'react'
+import styles from './App.module.css'
 
-const users = [
-  { id: 1, name: 'Gerado Gallegos', country: 'Mexico' },
-  { id: 2, name: 'Leanne Graham', country: 'USA' },
-  { id: 3, name: 'Ervin Howell', country: 'Colombia' },
-  { id: 4, name: 'Rodrigo Fernandez', country: 'Peru' },
-  { id: 5, name: 'Alfredo Bauch', country: 'Guatemala' },
+const images = [
+  {
+    author: {
+      name: 'Vlad Bagacian',
+      avatar:
+        'https://images.pexels.com/users/avatars/381880/vlad-bagacian-302.jpeg?w=256&h=256&fit=crop&crop=faces',
+    },
+    source:
+      'https://images.pexels.com/photos/1368388/pexels-photo-1368388.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=400',
+    views: 153,
+    id: 1,
+  },
+  {
+    author: {
+      name: 'Moreno Matković',
+      avatar:
+        'https://images.pexels.com/users/avatars/1265479/moreno-matkovic-149.jpeg?w=256&h=256&fit=crop&crop=faces',
+    },
+    source:
+      'https://images.pexels.com/photos/2779539/pexels-photo-2779539.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=400',
+    views: 214,
+    id: 2,
+  },
 ]
+
+const Image = ({ image }) => (
+  <div className={styles.card}>
+    <img src={image.source} alt="imagen" className={styles.image} />
+    <div className={styles.footer}>
+      <img src={image.author.avatar} alt="autor" className={styles.avatar} />
+      <div>{image.author.name}</div>
+      <div>{image.views}</div>
+    </div>
+  </div>
+)
+
 class App extends Component {
   render() {
     return (
-      <div>
-        <h1>Iterando</h1>
-        <ul>
-          {users.map((user) => (
-            <li key={user.id}>{user.name}</li>
-          ))}
-        </ul>
+      <div className={styles.images}>
+        {images.map((image) => (
+          <Image image={image} key={image.id} />
+        ))}
       </div>
     )
   }
