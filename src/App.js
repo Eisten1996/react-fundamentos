@@ -1,36 +1,26 @@
 import React, { Component } from 'react'
 
+const users = [
+  { id: 1, name: 'Gerado Gallegos', country: 'Mexico' },
+  { id: 2, name: 'Leanne Graham', country: 'USA' },
+  { id: 3, name: 'Ervin Howell', country: 'Colombia' },
+  { id: 4, name: 'Rodrigo Fernandez', country: 'Peru' },
+  { id: 5, name: 'Alfredo Bauch', country: 'Guatemala' },
+]
 class App extends Component {
-  state = {
-    user: {
-      name: 'Eisten',
-      country: 'Peru',
-      twitter: '@Dipper',
-      youtube: 'zDipper',
-    },
-  }
   render() {
-    const { user } = this.state
-    const keys = Object.keys(user)
     return (
       <div>
-        <h3>Iterando propiedades de objetos</h3>
+        <h1>Iterando</h1>
         <ul>
-          {keys.map((key) => (
-            <li>
-              <strong>{key}</strong> : {user[key]}
-            </li>
+          {users.map((user) => (
+            <li key={user.id}>{user.name}</li>
           ))}
         </ul>
       </div>
     )
   }
 }
-// class App extends Component {
-//   render() {
-//     return <div></div>
-//   }
-// }
 
 // const App = () => (
 //   <div>
