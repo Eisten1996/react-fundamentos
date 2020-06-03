@@ -1,20 +1,42 @@
 import React, { Component } from 'react'
 
-const FancyInput = React.forwardRef((props, ref) => (
-  <div>
-    <input type="text" ref={ref} />
-  </div>
-))
-class App extends Component {
-  entrada = React.createRef()
-  componentDidMount() {
-    console.log(this.entrada)
+const Unicorn = () => (
+  <span role="img" aria-label="unicornio">
+    🦄
+  </span>
+)
+
+class InputNoControlado extends Component {
+  nombre = React.createRef()
+  email = React.createRef()
+  handleClick = () => {
+    const nombre = this.nombre.current.value
+    const email = this.email.current.value
+
+    // manejo de datos
+    this.props.onSend({ nombre, email })
   }
   render() {
     return (
       <div>
-        <h1>Reenvio de Refs</h1>
-        <FancyInput ref={this.entrada} />
+        <input type="text" ref={this.nombre} placeholder="Nombres" />
+        <input type="text" ref={this.email} placeholder="Email" />
+        <button onClick={this.handleClick}>Enviar</button>
+      </div>
+    )
+  }
+}
+class App extends Component {
+  send = (data) => {
+    console.log(data)
+  }
+  render() {
+    return (
+      <div>
+        <h1>
+          Inputs No Contralados Refs <Unicorn />
+        </h1>
+        <InputNoControlado onSend={this.send} />
       </div>
     )
   }
