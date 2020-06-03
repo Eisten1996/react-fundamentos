@@ -5,43 +5,32 @@ const Unicorn = () => (
     🦄
   </span>
 )
-
-class InputNoControlado extends Component {
-  handleSubmit = (event) => {
-    event.preventDefault()
-    const nombre = event.target[0].value
-    const email = event.target[1].value
-
-    // manejo de datos
-    this.props.onSend({ nombre, email })
-  }
-  render() {
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <p>
-          <label htmlFor="name">Nombre : </label>
-          <input id="name" type="text" placeholder="Nombres" />
-        </p>
-        <p>
-          <label htmlFor="email">Email : </label>
-          <input id="email" type="text" placeholder="Email" />
-        </p>
-        <button>Enviar</button>
-      </form>
-    )
-  }
-}
 class App extends Component {
-  send = (data) => {
-    console.log(data)
+  state = {
+    tech: 'Vue',
   }
+
+  handleChange = (event) => {
+    this.setState({
+      tech: event.target.value,
+    })
+  }
+
   render() {
     return (
       <div>
         <h1>
-          Atributos con Refs <Unicorn />
+          Etiqueta Select <Unicorn />
         </h1>
-        <InputNoControlado onSend={this.send} />
+        <form>
+          <select value={this.state.tech} onChange={this.handleChange}>
+            <option value="Angular">Angular</option>
+            <option value="React">React</option>
+            <option value="Vue">Vue</option>
+            <option value="Vanilla">Vanilla</option>
+          </select>
+        </form>
+        <h2>{this.state.tech}</h2>
       </div>
     )
   }
