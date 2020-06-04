@@ -1,60 +1,33 @@
 import React, { Component } from 'react'
 
-class Boton extends Component {
-  state = {
-    dispatchError: false,
-  }
-  dispatchError = () => {
-    this.setState({ dispatchError: true })
-  }
-  render() {
-    if (this.state.dispatchError) {
-      throw new Error('Lo siento he fallado')
-    }
-    return <button onClick={this.dispatchError}>Boton con Bugg</button>
-  }
-}
-
-class LimiteErrores extends Component {
-  state = {
-    tieneError: false,
-  }
-
-  componentDidCatch = (error, errorInfo) => {
-    this.setState({
-      tieneError: true,
-      error,
-    })
-  }
-
-  render() {
-    if (this.state.tieneError) {
-      return (
-        <div>
-          Wops! algo ha salido mal puedes recargar
-          <div style={{ color: 'orange' }}>
-            {this.state.error && this.state.error.toString()}
-          </div>
-        </div>
-      )
-    }
-    return this.props.children
-  }
-}
-
 class App extends Component {
+  state = {
+    users: [],
+    cargando: true,
+  }
+  componentDidMount() {
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then((res) => res.json())
+      .then((users) => this.setState({ users, cargando: false }))
+      .catch((error) => {
+        // Manejo del Error
+      })
+  }
   render() {
+    if (this.state.cargando) {
+      return <h1>Cargando...</h1>
+    }
     return (
       <div>
-        <LimiteErrores>
-          <Boton />
-        </LimiteErrores>
-        <LimiteErrores>
-          <Boton />
-        </LimiteErrores>
-        <LimiteErrores>
-          <Boton />
-        </LimiteErrores>
+        <h1>Peticiones HTTP</h1>
+        <ul>
+          {this.state.users.map((user) => (
+            <li key={user.id}>
+              {user.name}
+              <a href={`http://${user.website}`}>WebSite</a>
+            </li>
+          ))}
+        </ul>
       </div>
     )
   }
