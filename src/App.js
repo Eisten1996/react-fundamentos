@@ -1,37 +1,60 @@
 import React, { Component } from 'react'
 
-const Unicorn = () => (
-  <span role="img" aria-label="unicornio">
-    🦄
-  </span>
-)
-class App extends Component {
+class Boton extends Component {
   state = {
-    active: true,
+    dispatchError: false,
+  }
+  dispatchError = () => {
+    this.setState({ dispatchError: true })
+  }
+  render() {
+    if (this.state.dispatchError) {
+      throw new Error('Lo siento he fallado')
+    }
+    return <button onClick={this.dispatchError}>Boton con Bugg</button>
+  }
+}
+
+class LimiteErrores extends Component {
+  state = {
+    tieneError: false,
   }
 
-  handleChange = (event) => {
+  componentDidCatch = (error, errorInfo) => {
     this.setState({
-      active: event.target.checked,
+      tieneError: true,
+      error,
     })
   }
 
   render() {
-    const { active } = this.state
+    if (this.state.tieneError) {
+      return (
+        <div>
+          Wops! algo ha salido mal puedes recargar
+          <div style={{ color: 'orange' }}>
+            {this.state.error && this.state.error.toString()}
+          </div>
+        </div>
+      )
+    }
+    return this.props.children
+  }
+}
+
+class App extends Component {
+  render() {
     return (
       <div>
-        <form>
-          <input
-            type="checkbox"
-            checked={this.state.active}
-            onChange={this.handleChange}
-          ></input>
-        </form>
-        {active && (
-          <h1>
-            Etiqueta checkbox <Unicorn />
-          </h1>
-        )}
+        <LimiteErrores>
+          <Boton />
+        </LimiteErrores>
+        <LimiteErrores>
+          <Boton />
+        </LimiteErrores>
+        <LimiteErrores>
+          <Boton />
+        </LimiteErrores>
       </div>
     )
   }
