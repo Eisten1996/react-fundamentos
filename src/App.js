@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 
 class App extends Component {
   state = {
@@ -7,19 +6,18 @@ class App extends Component {
     isFeaching: false,
   }
 
-  handlerSubmit = (event) => {
+  handlerSubmit = async (event) => {
     event.preventDefault()
     this.setState({ isFeaching: true })
     const title = event.target[0].value
     // alert(title)
     const url = 'http://www.omdbapi.com/?apikey=76ad082'
-    axios
-      .get(url, {
-        params: {
-          t: title,
-        },
-      })
-      .then(({ data }) => this.setState({ movie: data, isFeaching: false }))
+    const res = await fetch(url + '&t=' + title)
+    const movie = await res.json()
+    this.setState({
+      movie,
+      isFeaching: false,
+    })
   }
 
   render() {
