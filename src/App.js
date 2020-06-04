@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import axios from 'axios'
 
 class App extends Component {
   state = {
@@ -12,9 +13,13 @@ class App extends Component {
     const title = event.target[0].value
     // alert(title)
     const url = 'http://www.omdbapi.com/?apikey=76ad082'
-    fetch(url + '&t=' + title)
-      .then((res) => res.json())
-      .then((movie) => this.setState({ movie, isFeaching: false }))
+    axios
+      .get(url, {
+        params: {
+          t: title,
+        },
+      })
+      .then(({ data }) => this.setState({ movie: data, isFeaching: false }))
   }
 
   render() {
