@@ -1,50 +1,23 @@
 import React, { Component } from 'react'
 
-class Contador extends Component {
-  // constructor(props) {
-  //   super(props)
-
-  //   this.agregar = this.agregar.bind(this)
-
-  //   this.title = React.createRef()
-
-  //   this.state = {
-  //     num: props.num,
-  //   }
-  // }
-  // agregar() {
-  //   this.setState((state) => ({
-  //     num: state.num + 1,
-  //   }))
-  // }
-
-  title = React.createRef()
-
-  state = {
-    num: this.props.num,
-  }
-
-  agregar = () => {
-    this.setState({
-      num: this.state.num + 1,
-    })
-  }
-  render() {
+class App extends Component {
+  getList = () => {
     return (
-      <div>
-        <p>{this.state.num}</p>
-        <button onClick={this.agregar}>Incrementar</button>
-      </div>
+      <ul>
+        <li>Fresa</li>
+        <li>Mango</li>
+        <li>Pera</li>
+      </ul>
     )
   }
-}
-class App extends Component {
   render() {
+    if (true) {
+      return null
+    }
     return (
       <div>
-        <h1>Metodo constructor</h1>
-        <Contador num={5} />
-        <Contador num={20} />
+        <h1>Metodo Render</h1>
+        {this.getList()}
       </div>
     )
   }
