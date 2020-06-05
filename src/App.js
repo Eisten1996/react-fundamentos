@@ -1,42 +1,45 @@
 import React, { Component } from 'react'
+import faker from 'faker'
 
-class UserDetails extends Component {
-  state = {
-    user: {},
-    isFetching: false,
-  }
+const chatstyle = {
+  width: '450px',
+  height: '500px',
+  border: '1px solid gray',
+  overflow: 'auto',
+  font: 'monospace',
+}
 
-  componentDidMount() {
-    this.fetchData()
-  }
+const messageStyle = { padding: '1em', borderBottom: '1px solid #DDD' }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.userId !== prevProps.userId) {
-      this.fetchData()
+const avatarSytle = { width: '50px', height: '50px', borderRadius: '50%' }
+class Chat extends Component {
+  box = React.createRef()
+
+  getSnapshotBeforeUpdate() {
+    const box = this.box.current
+    if (box.scrollTop + box.offsetHeight >= box.scrollHeight) {
+      return true
     }
+    return false
   }
-  fetchData = () => {
-    this.setState({
-      isFetching: true,
-    })
-    const url =
-      'https://jsonplaceholder.typicode.com/users/' + this.props.userId
-    fetch(url)
-      .then((res) => res.json())
-      .then((user) => this.setState({ user, isFetching: false }))
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const box = this.box.current
+    if (snapshot) {
+      box.scrollTop = box.scrollHeight
+    }
   }
 
   render() {
     return (
-      <div>
-        <h2>User Details</h2>
-        {this.state.isFetching ? (
-          <div>
-            <h1>Cargando.....</h1>
+      <div style={chatstyle} ref={this.box}>
+        {this.props.list.map((item) => (
+          <div key={item.id} style={messageStyle}>
+            <p>{item.message}</p>
+            <div>{item.name}</div>
+            <img src={item.avatar} alt={item.name} style={avatarSytle}></img>
           </div>
-        ) : (
-          <pre>{JSON.stringify(this.state.user, null, 4)}</pre>
-        )}
+        ))}
       </div>
     )
   }
@@ -44,22 +47,28 @@ class UserDetails extends Component {
 
 class App extends Component {
   state = {
-    id: 5,
+    list: [],
   }
 
-  aumentar = () => {
+  addMessage = () => {
+    const message = {
+      id: faker.random.uuid(),
+      name: faker.name.findName(),
+      avatar: faker.image.avatar(),
+      message: faker.hacker.phrase(),
+    }
+
     this.setState((state) => ({
-      id: state.id + 1,
+      list: [...state.list, message],
     }))
   }
+
   render() {
-    const { id } = this.state
     return (
       <div>
-        <h1>componentDidUpdate</h1>
-        <h2>ID : {id}</h2>
-        <button onClick={this.aumentar}>Aumentar</button>
-        <UserDetails userId={id} />
+        <h1>getSnapshotBeforeUpdate</h1>
+        <Chat list={this.state.list} />
+        <button onClick={this.addMessage}>New Message</button>
       </div>
     )
   }
