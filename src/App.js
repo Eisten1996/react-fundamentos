@@ -1,42 +1,50 @@
 import React, { Component } from 'react'
 
-class App extends Component {
+class Contador extends Component {
+  // constructor(props) {
+  //   super(props)
+
+  //   this.agregar = this.agregar.bind(this)
+
+  //   this.title = React.createRef()
+
+  //   this.state = {
+  //     num: props.num,
+  //   }
+  // }
+  // agregar() {
+  //   this.setState((state) => ({
+  //     num: state.num + 1,
+  //   }))
+  // }
+
+  title = React.createRef()
+
   state = {
-    movie: {},
-    isFeaching: false,
+    num: this.props.num,
   }
 
-  handlerSubmit = async (event) => {
-    event.preventDefault()
-    this.setState({ isFeaching: true })
-    const title = event.target[0].value
-    // alert(title)
-    const url = 'http://www.omdbapi.com/?apikey=76ad082'
-    const res = await fetch(url + '&t=' + title)
-    const movie = await res.json()
+  agregar = () => {
     this.setState({
-      movie,
-      isFeaching: false,
+      num: this.state.num + 1,
     })
   }
-
   render() {
-    const { movie, isFeaching } = this.state
     return (
       <div>
-        <h1>Ejemplo HTTP Buscador de Peliculas</h1>
-        <form onSubmit={this.handlerSubmit}>
-          <input type="text" placeholder="Nombre de la pelicula"></input>
-          <button>Buscar</button>
-        </form>
-        {isFeaching && <h2>Cargando .... </h2>}
-        {movie.Title && !isFeaching && (
-          <div>
-            <h1>{movie.Title}</h1>
-            <p>{movie.Plot}</p>
-            <img src={movie.Poster} alt="poster"></img>
-          </div>
-        )}
+        <p>{this.state.num}</p>
+        <button onClick={this.agregar}>Incrementar</button>
+      </div>
+    )
+  }
+}
+class App extends Component {
+  render() {
+    return (
+      <div>
+        <h1>Metodo constructor</h1>
+        <Contador num={5} />
+        <Contador num={20} />
       </div>
     )
   }
