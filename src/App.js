@@ -1,23 +1,59 @@
 import React, { Component } from 'react'
 
-class App extends Component {
-  getList = () => {
-    return (
-      <ul>
-        <li>Fresa</li>
-        <li>Mango</li>
-        <li>Pera</li>
-      </ul>
-    )
+class Http extends Component {
+  state = {
+    photos: [],
   }
+
+  componentDidMount() {
+    fetch('https://jsonplaceholder.typicode.com/photos')
+      .then((res) => res.json())
+      .then((photos) => this.setState({ photos }))
+  }
+
   render() {
-    if (true) {
-      return null
-    }
     return (
       <div>
-        <h1>Metodo Render</h1>
-        {this.getList()}
+        {this.state.photos.map((photo) => (
+          <img key={photo.id} src={photo.url} alt="photon"></img>
+        ))}
+      </div>
+    )
+  }
+}
+
+class Events extends Component {
+  state = {
+    width: window.innerWidth,
+  }
+
+  componentDidMount() {
+    window.addEventListener('resize', this.handlerResize)
+  }
+
+  handlerResize = () => {
+    this.setState({
+      width: window.innerWidth,
+    })
+  }
+
+  render() {
+    return (
+      <div>
+        <h2>Eventos {this.state.width}</h2>
+      </div>
+    )
+  }
+}
+
+class App extends Component {
+  componentDidMount() {}
+  render() {
+    return (
+      <div>
+        <h1>componentDidMount</h1>
+        <Events />
+        <Http />
       </div>
     )
   }
