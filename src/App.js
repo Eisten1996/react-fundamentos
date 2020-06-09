@@ -1,25 +1,18 @@
-import React, { Component } from 'react'
+import React, { Component, PureComponent } from 'react'
 
 const itemStyle = {
   padding: '1em',
   borderBottom: '1px solid #CCC',
   marginTop: '0.4em',
 }
-class Item extends Component {
+class Item extends PureComponent {
   handlerClick = () => {
     this.props.onRemove(this.props.item)
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if (nextProps.item.id !== this.props.item.id) {
-      return true
-    }
-    return false
-  }
-
   render() {
     const { item } = this.props
-    console.log('render' + item.text)
+    console.log('render ' + item.text)
     return (
       <div style={itemStyle}>
         <button onClick={this.handlerClick}>x</button>
