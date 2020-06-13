@@ -4,12 +4,20 @@ const Header = () => {
   const subtitleSyle = {
     fontWeigth: 'blod',
   }
+  const headerStyle = {
+    margin: '0.6em',
+    borderRadius: '0.3em',
+    border: '1px solid #d2d2d2',
+    padding: '2em 0.4em',
+    fontFamily: 'monoespace',
+    fontSize: '17px',
+  }
 
   return (
     <header style={headerStyle}>
-      <div>(Hijo a Padre)</div>
+      <div>( Hermanos )</div>
       <div style={subtitleSyle}>
-        Event Bubbling
+        Parent Componet
         <span role="img" aria="img">
           🔥
         </span>
@@ -18,7 +26,7 @@ const Header = () => {
   )
 }
 
-const headerStyle = {
+const boxStyles = {
   margin: '0.5em',
   padding: '0.5em',
   borderRadius: '0.3em',
@@ -26,31 +34,60 @@ const headerStyle = {
   textAlign: 'center',
 }
 
-class Hijo extends Component {
-  handlerClick = (e) => {
-    // e.stopPropagation()
-    e.saludo = 'Hola mensaje desde el hijo'
-    console.log('Click en Hijo')
-  }
+const blueStyle = {
+  ...boxStyles,
+  border: '1px solid blue',
+}
+const redStyle = {
+  ...boxStyles,
+  border: '1px solid red',
+}
 
+class ComponentA extends Component {
   render() {
+    const { num } = this.props
     return (
-      <div style={headerStyle} onClick={this.handlerClick}>
-        <p>Hijo</p>
+      <div style={blueStyle}>
+        <button onClick={this.props.onAdd}>Component A ({num})</button>
       </div>
     )
   }
 }
+
+class ComponentB extends Component {
+  render() {
+    const { num } = this.props
+    return (
+      <div style={redStyle}>
+        <button onClick={this.props.onAdd}>Component B ({num})</button>
+      </div>
+    )
+  }
+}
+
 class App extends Component {
-  handlerClick = (e) => {
-    console.log('Click en Padre', e.saludo)
+  state = {
+    countA: 0,
+    countB: 0,
+  }
+  handlerA = () => {
+    this.setState({
+      countA: this.state.countA + 1,
+    })
   }
 
+  handlerB = () => {
+    this.setState({
+      countB: this.state.countB + 2,
+    })
+  }
   render() {
+    const { countA, countB } = this.state
     return (
-      <div style={headerStyle} onClick={this.handlerClick}>
+      <div style={boxStyles}>
         <Header />
-        <Hijo />
+        <ComponentA num={countA} onAdd={this.handlerB} />
+        <ComponentB num={countB} onAdd={this.handlerA} />
       </div>
     )
   }
