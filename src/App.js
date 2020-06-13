@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import PubSub from 'pubsub-js'
 
 const Header = () => {
   const subtitleSyle = {
@@ -63,19 +62,9 @@ class Bisnieto extends Component {
     messages: '******',
   }
   handlerClick = () => {
-    PubSub.publish('saludo', 'Hola desde el bisnieto')
-  }
-
-  componentDidMount() {
-    PubSub.subscribe('otroEvento', (e, data) => {
-      this.setState({
-        messages: data.title,
-      })
+    this.setState({
+      messages: window.title,
     })
-  }
-
-  componentWillUnmount() {
-    PubSub.unsubscribe()
   }
 
   render() {
@@ -91,19 +80,11 @@ class Bisnieto extends Component {
 
 class App extends Component {
   componentDidMount() {
-    PubSub.subscribe('saludo', (e, data) => {
-      alert(data)
-    })
-  }
-
-  componentWillUnmount() {
-    PubSub.unsubscribe()
+    window.title = 'React es cool'
   }
 
   handlerClick = () => {
-    PubSub.publish('otroEvento', {
-      title: 'Hola desde App',
-    })
+    window.title = '#####'
   }
 
   render() {
