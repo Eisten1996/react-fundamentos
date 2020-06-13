@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 
+const { Provider, Consumer } = React.createContext()
+
 const Header = () => {
   const subtitleSyle = {
     fontWeight: 'bold',
@@ -18,7 +20,7 @@ const Header = () => {
     <header style={headerStyle}>
       <div>( Cualquiera )</div>
       <div style={subtitleSyle}>
-        Observer pattern
+        React Api Conetext
         <span role="img" aria="img">
           🔥
         </span>
@@ -39,61 +41,48 @@ class Hijo extends Component {
   render() {
     return (
       <div style={boxStyles}>
-        <h3>Hijo</h3>
+        <p>Hijo</p>
         <Nieto />
       </div>
     )
   }
 }
 
-class Nieto extends Component {
-  render() {
-    return (
+const Nieto = () => (
+  <Consumer>
+    {({ clicks, addClick }) => (
       <div style={boxStyles}>
-        <h3>Nieto</h3>
-        <Bisnieto />
+        <p>Nieto</p>
+        <button onClick={addClick}>Disparar ({clicks})</button>
       </div>
-    )
-  }
-}
+    )}
+  </Consumer>
+)
 
-class Bisnieto extends Component {
+class App extends Component {
   state = {
-    messages: '******',
+    clicks: 0,
   }
-  handlerClick = () => {
+
+  addClick = () => {
     this.setState({
-      messages: window.title,
+      clicks: this.state.clicks + 1,
     })
   }
 
   render() {
     return (
-      <div style={boxStyles}>
-        <button onClick={this.handlerClick}>Nieto</button>
-        <p>{this.state.messages}</p>
-        <h3>Bisnieto</h3>
-      </div>
-    )
-  }
-}
-
-class App extends Component {
-  componentDidMount() {
-    window.title = 'React es cool'
-  }
-
-  handlerClick = () => {
-    window.title = '#####'
-  }
-
-  render() {
-    return (
-      <div style={boxStyles}>
-        <button onClick={this.handlerClick}>PADRE</button>
-        <Header />
-        <Hijo />
-      </div>
+      <Provider
+        value={{
+          clicks: this.state.clicks,
+          addClick: this.addClick,
+        }}
+      >
+        <div style={boxStyles}>
+          <Header />
+          <Hijo />
+        </div>
+      </Provider>
     )
   }
 }
