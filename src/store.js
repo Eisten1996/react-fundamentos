@@ -22,30 +22,30 @@ const counter = (state = initialState, action) => {
 // STORE
 const store = createStore(counter)
 
-store.subscribe(() => {
-  console.log(store.getState())
-})
+// store.subscribe(() => {
+//   console.log(store.getState())
+// })
 
 // ACCIONES
 
-const increment = () => {
+export const increment = () => {
   return {
     type: INCREMENT,
   }
 }
 
-const decrement = () => {
+export const decrement = () => {
   return {
     type: DECREMENT,
   }
 }
 
-store.dispatch(increment())
-store.dispatch(decrement())
+// store.dispatch(increment())
+// store.dispatch(decrement())
 
-setTimeout(() => {
-  store.dispatch(increment())
-}, 1000)
+// setTimeout(() => {
+//   store.dispatch(increment())
+// }, 1000)
 
 // store.getState()
 // store.dispatch()
