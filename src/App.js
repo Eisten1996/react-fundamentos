@@ -1,27 +1,26 @@
 import React, { Component } from 'react'
 
-const { Provider, Consumer } = React.createContext()
-
 const Header = () => {
-  const subtitleSyle = {
+  const subtitleStyles = {
     fontWeight: 'bold',
   }
 
-  const headerStyle = {
+  const headerStyles = {
     margin: '0.6em',
     borderRadius: '0.3em',
     border: '1px solid #d2d2d2',
     padding: '2em 0.4em',
-    fontFamily: 'monoespace',
+    fontFamily: 'monospace',
     fontSize: '17px',
+    textAlign: 'center',
   }
 
   return (
-    <header style={headerStyle}>
-      <div>( Cualquiera )</div>
-      <div style={subtitleSyle}>
-        React Api Conetext
-        <span role="img" aria="img">
+    <header style={headerStyles}>
+      <div>( Hijo a Padre )</div>
+      <div style={subtitleStyles}>
+        Render Props
+        <span role="img" aria-label="flame">
           🔥
         </span>
       </div>
@@ -29,60 +28,54 @@ const Header = () => {
   )
 }
 
-const boxStyles = {
-  margin: '0.5em',
-  padding: '0.5em',
-  borderRadius: '0.3em',
-  border: '1px solid gray',
-  textAlign: 'center',
-}
-
-class Hijo extends Component {
+class List extends Component {
   render() {
+    const { list, render } = this.props
     return (
-      <div style={boxStyles}>
-        <p>Hijo</p>
-        <Nieto />
+      <div>
+        {list.map((item, index) => {
+          if (render) {
+            return render(item, index)
+          }
+          return <li key={item.name}>{item.name}</li>
+        })}
       </div>
     )
   }
 }
 
-const Nieto = () => (
-  <Consumer>
-    {({ clicks, addClick }) => (
-      <div style={boxStyles}>
-        <p>Nieto</p>
-        <button onClick={addClick}>Disparar ({clicks})</button>
-      </div>
-    )}
-  </Consumer>
-)
+const boxStyles = {
+  padding: '0.5em',
+  margin: ' 0.5em',
+  border: '1px solid gray',
+  borderRadius: '0.3em',
+  textAlign: 'center',
+}
 
 class App extends Component {
   state = {
-    clicks: 0,
-  }
-
-  addClick = () => {
-    this.setState({
-      clicks: this.state.clicks + 1,
-    })
+    fruits: [
+      { name: 'Fresa', price: 22 },
+      { name: 'Mango', price: 18 },
+      { name: 'Sandia', price: 24 },
+      { name: 'Manzana', price: 12 },
+    ],
   }
 
   render() {
+    const { fruits } = this.state
     return (
-      <Provider
-        value={{
-          clicks: this.state.clicks,
-          addClick: this.addClick,
-        }}
-      >
-        <div style={boxStyles}>
-          <Header />
-          <Hijo />
-        </div>
-      </Provider>
+      <div style={boxStyles}>
+        <Header />
+        <List
+          list={fruits}
+          render={(data, index) => (
+            <div>
+              {data.name} - {data.price}
+            </div>
+          )}
+        />
+      </div>
     )
   }
 }
