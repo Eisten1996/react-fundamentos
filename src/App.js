@@ -38,43 +38,49 @@ const boxStyles = {
   textAlign: 'center',
 }
 
-// HOC
-const withCounter = (Comp) => {
-  return (config) => {
-    return class extends Component {
-      state = {
-        num: config.clicks,
-      }
+const withSizes = (Comp) => {
+  return class extends Component {
+    state = {
+      width: window.innerWidth,
+      height: window.innerHeight,
+    }
 
-      add = () => {
-        this.setState((state) => ({
-          num: state.num + config.sumClicks,
-        }))
-      }
+    componentDidMount() {
+      window.addEventListener('resize', this.handleResize)
+    }
 
-      render() {
-        return <Comp num={this.state.num} add={this.add} />
-      }
+    componentWillUnmount() {
+      window.removeEventListener('resize', this.handleResize)
+    }
+
+    handleResize = () => {
+      this.setState({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      })
+    }
+    render() {
+      const { width, height } = this.state
+      return (
+        <div>
+          <Comp width={width} height={height} />
+        </div>
+      )
     }
   }
 }
-
 class App extends Component {
   render() {
-    const { num, add } = this.props
-
-    console.log(this.props)
+    const { width, height } = this.props
     return (
       <div style={boxStyles}>
         <Header />
-        <h1>{num}</h1>
-        <button onClick={add}>ADD</button>
+        <h1>
+          {width} - {height}
+        </h1>
       </div>
     )
   }
 }
 
-export default withCounter(App)({
-  clicks: 100,
-  sumClicks: 10,
-})
+export default withSizes(App)
