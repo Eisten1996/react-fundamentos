@@ -1,19 +1,42 @@
-import React, { Component } from 'react'
-import store from './store'
-import { Provider } from 'react-redux'
-import Counter from './components/counter'
+import React, { useState } from 'react'
 
-class App extends Component {
-  render() {
-    return (
-      <Provider store={store}>
-        <div>
-          <h3>App</h3>
-          <Counter />
-        </div>
-      </Provider>
-    )
+const Header = () => {
+  const styles = {
+    background: 'linear-gradient(20deg, #6813cb, #2575fc)',
+    textAlign: 'center',
+    borderRadius: '0.2em',
+    color: '#FFF',
+    padding: '0.3em',
+    margin: '0.3em',
+    fontSize: '14px',
   }
+
+  return (
+    <header style={styles}>
+      <h1>
+        Hook useState
+        <span role="img" aria-label="hook emoji">
+          ⚓
+        </span>
+      </h1>
+    </header>
+  )
+}
+
+const App = () => {
+  // [value, func()]
+  const [clicks, setClicks] = useState(0)
+
+  const addClicks = () => {
+    setClicks(clicks + 1)
+  }
+
+  return (
+    <div>
+      <Header />
+      <button onClick={addClicks}>Clicks ({clicks})</button>
+    </div>
+  )
 }
 
 export default App
