@@ -24,36 +24,24 @@ const Header = () => {
 }
 
 const App = () => {
-  const [state, setState] = useState({
-    clicks: 0,
-    title: '',
-  })
+  const [clicks, setClicks] = useState(50)
+  const [title, setTitle] = useState('Hola React')
 
   const addClicks = () => {
-    setState({
-      ...state,
-      clicks: state.clicks + 1,
-    })
-  }
-
-  const merge = (nextState) => {
-    setState({
-      ...state,
-      ...nextState,
-    })
+    setClicks(clicks + 1)
   }
 
   const handleInput = (e) => {
     const title = e.target.value
-    merge({ title })
+    setTitle(title)
   }
 
   return (
     <div>
       <Header />
-      <input type="text" onChange={handleInput} value={state.title} />
-      <button onClick={addClicks}>Clicks ({state.clicks})</button>
-      <h3>{state.title}</h3>
+      <input type="text" onChange={handleInput} value={title} />
+      <button onClick={addClicks}>Clicks ({clicks})</button>
+      <h3>{title}</h3>
     </div>
   )
 }
