@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 const Header = () => {
   const styles = {
@@ -24,24 +24,24 @@ const Header = () => {
 }
 
 const App = () => {
-  const [clicks, setClicks] = useState(50)
-  const [title, setTitle] = useState('Hola React')
+  const [clicks, setClicks] = useState(0)
 
-  const addClicks = () => {
-    setClicks(clicks + 1)
-  }
-
-  const handleInput = (e) => {
-    const title = e.target.value
-    setTitle(title)
-  }
+  useEffect(() => {
+    // ComponentDidMount
+    // ComponentDidUpdate
+    console.log('Dentro de useEffect', clicks)
+    console.log('%c----------------------------', 'color:green')
+    return () => {
+      // ComponentWillUnmount
+      console.log('Return de useEffect', clicks)
+    }
+  })
+  const addClicks = () => setClicks(clicks + 1)
 
   return (
     <div>
       <Header />
-      <input type="text" onChange={handleInput} value={title} />
       <button onClick={addClicks}>Clicks ({clicks})</button>
-      <h3>{title}</h3>
     </div>
   )
 }
