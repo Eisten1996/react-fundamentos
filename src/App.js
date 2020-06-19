@@ -24,24 +24,25 @@ const Header = () => {
 }
 
 const App = () => {
-  const [clicks, setClicks] = useState(0)
+  const [mouseX, setMouseX] = useState(0)
+  const [mouseY, setMouseY] = useState(0)
 
+  const handlerMove = (e) => {
+    setMouseX(e.clientX)
+    setMouseY(e.clientY)
+  }
   useEffect(() => {
-    // ComponentDidMount
-    // ComponentDidUpdate
-    console.log('Dentro de useEffect', clicks)
-    console.log('%c----------------------------', 'color:green')
+    window.addEventListener('mousemove', handlerMove)
     return () => {
-      // ComponentWillUnmount
-      console.log('Return de useEffect', clicks)
+      window.removeEventListener('mousemove', handlerMove)
     }
   })
-  const addClicks = () => setClicks(clicks + 1)
-
   return (
     <div>
       <Header />
-      <button onClick={addClicks}>Clicks ({clicks})</button>
+      <h1>
+        X : {mouseX} Y : {mouseY}
+      </h1>
     </div>
   )
 }
