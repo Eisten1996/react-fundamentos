@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-
+import React, { useState } from 'react'
+import { useEffect } from 'react'
 const Header = () => {
   const styles = {
     background: 'linear-gradient(20deg, #6813cb, #2575fc)',
@@ -22,27 +22,30 @@ const Header = () => {
     </header>
   )
 }
-
 const App = () => {
-  const [mouseX, setMouseX] = useState(0)
-  const [mouseY, setMouseY] = useState(0)
+  const [clicks, setClick] = useState(0)
+  const [emojin, setEmojin] = useState('🦁')
+  // 🙊🎇
 
-  const handlerMove = (e) => {
-    setMouseX(e.clientX)
-    setMouseY(e.clientY)
+  const addClicks = () => {
+    setClick(clicks + 1)
   }
+
   useEffect(() => {
-    window.addEventListener('mousemove', handlerMove)
-    return () => {
-      window.removeEventListener('mousemove', handlerMove)
-    }
-  })
+    alert('useEffet 🎇')
+  }, [clicks])
+
+  const toggleEmojin = () => {
+    const nextEmoji = emojin === '🦁' ? '🙊' : '🦁'
+    setEmojin(nextEmoji)
+  }
+
   return (
     <div>
       <Header />
-      <h1>
-        X : {mouseX} Y : {mouseY}
-      </h1>
+      <button onClick={addClicks}> Clicks {clicks}</button>
+      <button onClick={toggleEmojin}>Alternar Emojin</button>
+      <h1>{emojin}</h1>
     </div>
   )
 }
