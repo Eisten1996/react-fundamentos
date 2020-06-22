@@ -1,4 +1,5 @@
-import React, { useRef } from 'react'
+import React, { useRef, useEffect } from 'react'
+import { useState } from 'react'
 
 const Header = () => {
   const styles = {
@@ -24,21 +25,36 @@ const Header = () => {
 }
 
 const App = () => {
+  const [name, setName] = useState('')
+  const [products, setProducts] = useState([])
+
   const entrada = useRef()
 
-  const focus = () => {
-    entrada.current.focus()
-  }
-  const blur = () => {
-    entrada.current.blur()
+  useEffect(() => {
+    setTimeout(() => {
+      if (name === entrada.current.value) {
+        fetch(
+          `https://universidad-react-api-test.luxfenix.now.sh/products?name=${name}`
+        )
+          .then((res) => res.json())
+          .then((data) => setProducts(data.products))
+      }
+    }, 600)
+  }, [name])
+
+  const handlerInput = (e) => {
+    setName(e.target.value)
   }
 
   return (
     <div>
       <Header />
-      <input type="text" placeholder="Ingresa tu texto" ref={entrada} />
-      <button onClick={focus}>Focus</button>
-      <button onClick={blur}>Blur</button>
+      <input type="text" onChange={handlerInput} ref={entrada} />
+      <ul>
+        {products.map((product) => (
+          <li key={product.id}>{product.name}</li>
+        ))}
+      </ul>
     </div>
   )
 }
