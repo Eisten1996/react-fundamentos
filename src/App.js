@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useLayoutEffect } from 'react'
+import { useState } from 'react'
+import { useEffect } from 'react'
 
 const Header = () => {
   const styles = {
@@ -23,31 +25,33 @@ const Header = () => {
   )
 }
 const App = () => {
-  const [users, setUsers] = useState([])
-  const [isFetching, setFetching] = useState(true)
+  const [count, setState] = useState(1)
+
+  const add = () => {
+    setState(count + 1)
+  }
 
   useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/users')
-      .then((res) => res.json())
-      .then((users) => {
-        setUsers(users)
-        setFetching(false)
-      })
-  }, [])
+    console.log('useEffect 1')
+  }, [count])
+
+  useEffect(() => {
+    console.log('useEffect 2')
+  }, [count])
+
+  useLayoutEffect(() => {
+    console.log('useLayoutEffect 1')
+  }, [count])
+
+  useLayoutEffect(() => {
+    console.log('useLayoutEffect 2')
+  }, [count])
 
   return (
     <div>
       <Header />
       <h1>App</h1>
-      {isFetching ? (
-        <h1>Cargando.....</h1>
-      ) : (
-        <ul>
-          {users.map((user) => (
-            <li key={user.id}>{user.name}</li>
-          ))}
-        </ul>
-      )}
+      <button onClick={add}>Add ({count})</button>
     </div>
   )
 }
