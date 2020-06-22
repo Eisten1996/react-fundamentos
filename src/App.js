@@ -1,6 +1,5 @@
-import React, { useLayoutEffect } from 'react'
-import { useState } from 'react'
-import { useEffect } from 'react'
+import React, { useState } from 'react'
+import { useContext } from 'react'
 
 const Header = () => {
   const styles = {
@@ -16,7 +15,7 @@ const Header = () => {
   return (
     <header style={styles}>
       <h1>
-        Hook useState
+        Hook useContext
         <span role="img" aria-label="hook emoji">
           ⚓
         </span>
@@ -24,35 +23,62 @@ const Header = () => {
     </header>
   )
 }
-const App = () => {
-  const [count, setState] = useState(1)
 
-  const add = () => {
-    setState(count + 1)
-  }
+// Uso normal de context
+// const Nieto = () => {
+//   return (
+//     <MyContext.Consumer>
+//       {(context) => (
+//         <div>
+//           <p>Nieto {context.num}</p>
+//           <button onClick={context.addNum}>Nieto Dispatcher</button>
+//         </div>
+//       )}
+//     </MyContext.Consumer>
+//   )
+// }
 
-  useEffect(() => {
-    console.log('useEffect 1')
-  }, [count])
-
-  useEffect(() => {
-    console.log('useEffect 2')
-  }, [count])
-
-  useLayoutEffect(() => {
-    console.log('useLayoutEffect 1')
-  }, [count])
-
-  useLayoutEffect(() => {
-    console.log('useLayoutEffect 2')
-  }, [count])
-
+const Nieto = () => {
+  const { addNum, num } = useContext(MyContext)
   return (
     <div>
-      <Header />
-      <h1>App</h1>
-      <button onClick={add}>Add ({count})</button>
+      <p>Nieto {num}</p>
+      <button onClick={addNum}>Nieto Dispatcher</button>
     </div>
+  )
+}
+
+const Hijo = () => {
+  return (
+    <div>
+      <p>Hijo</p>
+      <Nieto />
+    </div>
+  )
+}
+
+const MyContext = React.createContext()
+
+const App = () => {
+  const [num, setNum] = useState(0)
+
+  const addNum = () => {
+    setNum(num + 1)
+  }
+
+  return (
+    <MyContext.Provider
+      value={{
+        num,
+        addNum,
+      }}
+    >
+      <div>
+        <Header />
+        <button onClick={addNum}>App ({num})</button>
+        <Hijo />
+      </div>
+    </MyContext.Provider>
   )
 }
 
