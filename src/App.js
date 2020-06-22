@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import { useContext } from 'react'
+import React, { useRef } from 'react'
 
 const Header = () => {
   const styles = {
@@ -15,7 +14,7 @@ const Header = () => {
   return (
     <header style={styles}>
       <h1>
-        Hook useContext
+        Hook useRef
         <span role="img" aria-label="hook emoji">
           ⚓
         </span>
@@ -24,61 +23,23 @@ const Header = () => {
   )
 }
 
-// Uso normal de context
-// const Nieto = () => {
-//   return (
-//     <MyContext.Consumer>
-//       {(context) => (
-//         <div>
-//           <p>Nieto {context.num}</p>
-//           <button onClick={context.addNum}>Nieto Dispatcher</button>
-//         </div>
-//       )}
-//     </MyContext.Consumer>
-//   )
-// }
-
-const Nieto = () => {
-  const { addNum, num } = useContext(MyContext)
-  return (
-    <div>
-      <p>Nieto {num}</p>
-      <button onClick={addNum}>Nieto Dispatcher</button>
-    </div>
-  )
-}
-
-const Hijo = () => {
-  return (
-    <div>
-      <p>Hijo</p>
-      <Nieto />
-    </div>
-  )
-}
-
-const MyContext = React.createContext()
-
 const App = () => {
-  const [num, setNum] = useState(0)
+  const entrada = useRef()
 
-  const addNum = () => {
-    setNum(num + 1)
+  const focus = () => {
+    entrada.current.focus()
+  }
+  const blur = () => {
+    entrada.current.blur()
   }
 
   return (
-    <MyContext.Provider
-      value={{
-        num,
-        addNum,
-      }}
-    >
-      <div>
-        <Header />
-        <button onClick={addNum}>App ({num})</button>
-        <Hijo />
-      </div>
-    </MyContext.Provider>
+    <div>
+      <Header />
+      <input type="text" placeholder="Ingresa tu texto" ref={entrada} />
+      <button onClick={focus}>Focus</button>
+      <button onClick={blur}>Blur</button>
+    </div>
   )
 }
 
