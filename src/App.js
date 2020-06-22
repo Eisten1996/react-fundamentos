@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+
 const Header = () => {
   const styles = {
     background: 'linear-gradient(20deg, #6813cb, #2575fc)',
@@ -23,29 +23,31 @@ const Header = () => {
   )
 }
 const App = () => {
-  const [clicks, setClick] = useState(0)
-  const [emojin, setEmojin] = useState('🦁')
-  // 🙊🎇
-
-  const addClicks = () => {
-    setClick(clicks + 1)
-  }
+  const [users, setUsers] = useState([])
+  const [isFetching, setFetching] = useState(true)
 
   useEffect(() => {
-    alert('useEffet 🎇')
-  }, [clicks])
-
-  const toggleEmojin = () => {
-    const nextEmoji = emojin === '🦁' ? '🙊' : '🦁'
-    setEmojin(nextEmoji)
-  }
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then((res) => res.json())
+      .then((users) => {
+        setUsers(users)
+        setFetching(false)
+      })
+  }, [])
 
   return (
     <div>
       <Header />
-      <button onClick={addClicks}> Clicks {clicks}</button>
-      <button onClick={toggleEmojin}>Alternar Emojin</button>
-      <h1>{emojin}</h1>
+      <h1>App</h1>
+      {isFetching ? (
+        <h1>Cargando.....</h1>
+      ) : (
+        <ul>
+          {users.map((user) => (
+            <li key={user.id}>{user.name}</li>
+          ))}
+        </ul>
+      )}
     </div>
   )
 }
