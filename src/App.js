@@ -1,5 +1,5 @@
-import React, { useRef, useEffect } from 'react'
-import { useState } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
+import { useDebounce } from 'use-debounce'
 
 const Header = () => {
   const styles = {
@@ -27,20 +27,15 @@ const Header = () => {
 const App = () => {
   const [name, setName] = useState('')
   const [products, setProducts] = useState([])
-
-  const entrada = useRef()
+  const [search] = useDebounce(name, 1000)
 
   useEffect(() => {
-    setTimeout(() => {
-      if (name === entrada.current.value) {
-        fetch(
-          `https://universidad-react-api-test.luxfenix.now.sh/products?name=${name}`
-        )
-          .then((res) => res.json())
-          .then((data) => setProducts(data.products))
-      }
-    }, 600)
-  }, [name])
+    fetch(
+      `https://universidad-react-api-test.luxfenix.now.sh/products?name=${name}`
+    )
+      .then((res) => res.json())
+      .then((data) => setProducts(data.products))
+  }, [search])
 
   const handlerInput = (e) => {
     setName(e.target.value)
@@ -49,7 +44,7 @@ const App = () => {
   return (
     <div>
       <Header />
-      <input type="text" onChange={handlerInput} ref={entrada} />
+      <input type="text" onChange={handlerInput} />
       <ul>
         {products.map((product) => (
           <li key={product.id}>{product.name}</li>
