@@ -1,5 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react'
-import { useDebounce } from 'use-debounce'
+import React, { useReducer } from 'react'
 
 const Header = () => {
   const styles = {
@@ -15,7 +14,7 @@ const Header = () => {
   return (
     <header style={styles}>
       <h1>
-        Hook useRef
+        Hook userReducer
         <span role="img" aria-label="hook emoji">
           ⚓
         </span>
@@ -23,33 +22,54 @@ const Header = () => {
     </header>
   )
 }
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'INCREMENT':
+      return {
+        ...state,
+        count: state.count + 1,
+      }
+    case 'DECREMENT':
+      return {
+        ...state,
+        count: state.count - 1,
+      }
+    case 'SET_TITLE':
+      return {
+        ...state,
+        title: action.title,
+      }
+
+    default:
+      return state
+  }
+}
+const initialState = {
+  count: 0,
+  title: 'Hola',
+}
 
 const App = () => {
-  const [name, setName] = useState('')
-  const [products, setProducts] = useState([])
-  const [search] = useDebounce(name, 1000)
+  const [state, dispatch] = useReducer(reducer, initialState)
 
-  useEffect(() => {
-    fetch(
-      `https://universidad-react-api-test.luxfenix.now.sh/products?name=${name}`
-    )
-      .then((res) => res.json())
-      .then((data) => setProducts(data.products))
-  }, [search])
-
-  const handlerInput = (e) => {
-    setName(e.target.value)
+  const increment = () => {
+    dispatch({ type: 'INCREMENT' })
   }
-
+  const decrement = () => {
+    dispatch({ type: 'DECREMENT' })
+  }
+  const handlerTitle = (e) => {
+    dispatch({ type: 'SET_TITLE', title: e.target.value })
+  }
   return (
     <div>
       <Header />
-      <input type="text" onChange={handlerInput} />
-      <ul>
-        {products.map((product) => (
-          <li key={product.id}>{product.name}</li>
-        ))}
-      </ul>
+      <input onChange={handlerTitle} type="text" value={state.title} />
+      <button onClick={increment}>Increment</button>
+      <button onClick={decrement}>Decrement</button>
+      <h1>
+        {state.count} - {state.title}
+      </h1>
     </div>
   )
 }
