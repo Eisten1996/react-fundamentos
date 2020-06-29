@@ -1,4 +1,5 @@
-import React, { useReducer } from 'react'
+import React, { useImperativeHandle, useRef, useState } from 'react'
+import { forwardRef } from 'react'
 
 const Header = () => {
   const styles = {
@@ -14,7 +15,7 @@ const Header = () => {
   return (
     <header style={styles}>
       <h1>
-        Hook userReducer
+        useImperativehandle
         <span role="img" aria-label="hook emoji">
           ⚓
         </span>
@@ -22,54 +23,42 @@ const Header = () => {
     </header>
   )
 }
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'INCREMENT':
-      return {
-        ...state,
-        count: state.count + 1,
-      }
-    case 'DECREMENT':
-      return {
-        ...state,
-        count: state.count - 1,
-      }
-    case 'SET_TITLE':
-      return {
-        ...state,
-        title: action.title,
-      }
 
-    default:
-      return state
-  }
-}
-const initialState = {
-  count: 0,
-  title: 'Hola',
-}
+const FancyInput = forwardRef((props, ref) => {
+  const [text, setText] = useState('***')
+  const entrada = useRef()
+
+  useImperativeHandle(ref, () => ({
+    dispatchAlert: () => {
+      alert('Hola')
+    },
+    setParragraph: (mess) => {
+      setText(mess)
+    },
+    focusInput: () => {
+      entrada.current.focus()
+    },
+  }))
+  return (
+    <div>
+      <p>{text}</p>
+      <input type="text" ref={entrada} />
+    </div>
+  )
+})
 
 const App = () => {
-  const [state, dispatch] = useReducer(reducer, initialState)
-
-  const increment = () => {
-    dispatch({ type: 'INCREMENT' })
-  }
-  const decrement = () => {
-    dispatch({ type: 'DECREMENT' })
-  }
-  const handlerTitle = (e) => {
-    dispatch({ type: 'SET_TITLE', title: e.target.value })
+  const fancyInput = useRef()
+  const handlerClick = () => {
+    fancyInput.current.dispatchAlert()
+    fancyInput.current.setParragraph('Hola desde App')
+    fancyInput.current.focusInput()
   }
   return (
     <div>
       <Header />
-      <input onChange={handlerTitle} type="text" value={state.title} />
-      <button onClick={increment}>Increment</button>
-      <button onClick={decrement}>Decrement</button>
-      <h1>
-        {state.count} - {state.title}
-      </h1>
+      <FancyInput ref={fancyInput} />
+      <button onClick={handlerClick}>Dispatch</button>
     </div>
   )
 }
