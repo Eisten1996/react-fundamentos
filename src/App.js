@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 
 const Header = () => {
   const styles = {
@@ -14,7 +14,7 @@ const Header = () => {
   return (
     <header style={styles}>
       <h1>
-        React.memo
+        Hook useCallback
         <span role="img" aria-label="hook emoji">
           ⚓
         </span>
@@ -23,48 +23,32 @@ const Header = () => {
   )
 }
 
-const Counter = React.memo(({ count }) => {
-  console.log('%cRender <Counter />', 'color:blue')
+const getRandom = () => '#' + Math.random().toString(16).slice(2, 8)
 
-  return <h1>{count}</h1>
-})
-
-const Title = React.memo(({ text }) => {
-  console.log('%cRender <Title />', 'color:orange')
-
-  return <h1>{text}</h1>
-})
-const TitleNested = React.memo(
-  ({ info }) => {
-    console.log('%cRender <TitleNested />', 'color:purple')
-
-    return <h1>{info.text}</h1>
-  },
-  (prevProps, nextProps) => {
-    return prevProps.info.text === nextProps.info.text
+const Button = React.memo(({ callback, children }) => {
+  const Style = {
+    padding: '1em',
+    fontSize: '20px',
+    background: getRandom(),
   }
-)
+  return (
+    <button style={Style} onClick={callback}>
+      {children}
+    </button>
+  )
+})
 
 const App = () => {
-  const [title, setTitle] = useState('')
-  const [count, setCount] = useState(0)
+  const [a, setA] = useState(0)
 
-  const handleInput = (e) => {
-    setTitle(e.target.value)
-  }
-
-  const handleAdd = () => {
-    setCount(count + 1)
-  }
-
+  const incrementA = useCallback(() => {
+    setA((a) => a + 1)
+  }, [])
   return (
     <div>
       <Header />
-      <input type="text" onChange={handleInput} />
-      <button onClick={handleAdd}>Add</button>
-      <Counter count={count} />
-      <Title text={title} />
-      <TitleNested info={{ text: title }} />
+      <Button callback={incrementA}>Increment A</Button>
+      <h1>a: {a}</h1>
     </div>
   )
 }
